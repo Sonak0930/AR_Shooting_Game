@@ -46,14 +46,13 @@ public class InputManager : MonoBehaviour
 
     private void StartTouch(InputAction.CallbackContext context)
     {
-        Debug.Log("Touch Started" + touch.Touches.Touchpos.ReadValue<Vector2>());
-
+        
         if (onStartTouch != null) onStartTouch(touch.Touches.Touchpos.ReadValue<Vector2>(), (float)context.startTime);
     }
 
     private void EndTouch(InputAction.CallbackContext context)
     {
-        Debug.Log("Touch ended");
+        
 
         if (onEndTouch != null) onEndTouch(touch.Touches.Touchpos.ReadValue<Vector2>(), (float)context.time);
     }
@@ -65,12 +64,7 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches);
-
-        foreach(UnityEngine.InputSystem.EnhancedTouch.Touch touch in UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches)
-        {
-            Debug.Log(touch.phase == UnityEngine.InputSystem.TouchPhase.Began);
-        }
+        
     }
 
 }

@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 30106159}
   - component: {fileID: 30106158}
   m_Layer: 5
-  m_Name: U_S
+  m_Name: userScoreUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -351,7 +351,7 @@ GameObject:
   - component: {fileID: 238899731}
   - component: {fileID: 238899730}
   m_Layer: 5
-  m_Name: HP
+  m_Name: userHealthText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -431,6 +431,7 @@ GameObject:
   - component: {fileID: 256389828}
   - component: {fileID: 256389827}
   - component: {fileID: 256389826}
+  - component: {fileID: 256389830}
   m_Layer: 0
   m_Name: AR Session Origin
   m_TagString: Untagged
@@ -457,32 +458,19 @@ MonoBehaviour:
   portionmask:
     serializedVersion: 2
     m_Bits: 128
-  Clear_Item: {fileID: 1430434954715925072, guid: ed7da52e9c52345c0b9289b996efbca7, type: 3}
-  Slow_Item: {fileID: 6047475548722672740, guid: 4e376b93c7ae44c55ac1466ed261e85a, type: 3}
-  Fast_Item: {fileID: 884769707046981709, guid: 438ac467b454044b8a16f40260a6000f, type: 3}
-  Plus_Item: {fileID: 3591599232683433690, guid: b5de201dbb2cd412b8cf9c9678a03f20, type: 3}
-  EnemyPrefabToInstantiate: {fileID: 6364858404802517187, guid: 762fa863d2b3a47b7a75da347d1a11bd, type: 3}
-  User_Score: {fileID: 30106156}
-  User_Health: {fileID: 1144926190}
-  temp: {fileID: 1767663768970106, guid: ca9fda2f4d77c4d4f88d4ed8b939f69b, type: 3}
-  EnemiesSpawned: []
-  PortionSpawned: []
-  time: 3
-  count: 0
-  item_count: 0
-  score: 0
-  health: 100
-  s: 0.5
-  item_rand: 0
-  EnemySpawnPosition: {fileID: 0}
+  clearItemPrefab: {fileID: 1430434954715925072, guid: ed7da52e9c52345c0b9289b996efbca7, type: 3}
+  slowItemPrefab: {fileID: 6047475548722672740, guid: 4e376b93c7ae44c55ac1466ed261e85a, type: 3}
+  fastItemPrefab: {fileID: 884769707046981709, guid: 438ac467b454044b8a16f40260a6000f, type: 3}
+  plusItemPrefab: {fileID: 3591599232683433690, guid: b5de201dbb2cd412b8cf9c9678a03f20, type: 3}
+  enemyPrefab: {fileID: 1767663768970106, guid: ca9fda2f4d77c4d4f88d4ed8b939f69b, type: 3}
+  userScoreUI: {fileID: 30106156}
+  userHealthUI: {fileID: 1144926190}
   target: {fileID: 1184862383}
   RanMinX: 0
   RanMaxX: 5
   RanMaxY: 5
   RanMinZ: 0
   RanMaxZ: 5
-  myScore: {fileID: 30106158}
-  myHealth: {fileID: 1144926192}
 --- !u!114 &256389827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -532,6 +520,83 @@ Transform:
   - {fileID: 117165522}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &256389830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256389825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2fadf230d1919748a9aa21d40f74619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TrackingType: 0
+  m_UpdateType: 0
+  m_IgnoreTrackingState: 0
+  m_PositionInput:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Position
+      m_Type: 0
+      m_ExpectedControlType: Vector3
+      m_Id: 7e5f81ea-9438-44bc-be6b-38c159e4aa97
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: d1a097e2-38b6-4e9d-989f-6375fd35a381
+        m_Path: <HandheldARInputDevice>/devicePosition
+        m_Interactions: Tap
+        m_Processors: NormalizeVector3
+        m_Groups: 
+        m_Action: Position
+        m_Flags: 0
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  m_RotationInput:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Rotation
+      m_Type: 0
+      m_ExpectedControlType: Quaternion
+      m_Id: 12f54a97-1a7b-44b2-904e-942df1389e8c
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  m_TrackingStateInput:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Tracking State
+      m_Type: 0
+      m_ExpectedControlType: Integer
+      m_Id: 9a4d586c-7baa-4fd1-87d0-3265261b2b05
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  m_PositionAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 9ca3af26-ad02-4729-9f4e-60ba3f4c9332
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  m_RotationAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 2d3fcb68-0a40-4024-9f9a-e580cf8da3b2
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!1 &294111494
 GameObject:
   m_ObjectHideFlags: 0
@@ -1214,7 +1279,7 @@ GameObject:
   - component: {fileID: 705781306}
   - component: {fileID: 705781307}
   m_Layer: 5
-  m_Name: Score
+  m_Name: userScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1619,7 +1684,7 @@ GameObject:
   - component: {fileID: 1144926193}
   - component: {fileID: 1144926192}
   m_Layer: 5
-  m_Name: U_H
+  m_Name: userHealthUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
