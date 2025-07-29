@@ -1,3 +1,4 @@
+using ProjectTest;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,6 +35,10 @@ public class PlayerHealthManager : MonoBehaviour
 
     public void decreaseHealth(int damage)
     {
+        if(this.health-damage<=0)
+        {
+            GameState.RoundWonHandler round 
+        }
         this.health -= damage;
     }
 

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
@@ -17,7 +16,7 @@ public class EnemyController : MonoBehaviour
     public GameObject enemyPrefab;
     [SerializeField] private int damagePerEnemy = 10;
     [SerializeField] private float speedOffsetItem = 0.5f;
-    [SerializeField] string tagForEnemy="Enemy";
+    
     [Header("UI Reference")]
     [SerializeField]PlayerHealthManager playerHealthManager;
     [SerializeField]PlayerScoreManager playerScoreManager;
@@ -87,24 +86,14 @@ public class EnemyController : MonoBehaviour
 
     public void DestroyEnemyCollidingToPlayer(GameObject enemy)
     {
-        GameObject enemyToDestroy = enemies.Find(enemy => enemy == enemy.gameObject);
-    
-
-        enemies.Remove(enemyToDestroy); 
-       
-   
-        Destroy(enemy.gameObject);
+        DestroyEnemy(enemy);
         playerHealthManager.decreaseHealth(damagePerEnemy);
     }
 
     public void DestroyEnemyWithPlayerShot(GameObject enemy, int scorePerEnemy)
     {
-        GameObject enemyToDestroy = enemies.Find(enemy => enemy == enemy.gameObject);
-      
-        enemies.Remove(enemyToDestroy);
 
-
-        Destroy(enemy.gameObject);
+        DestroyEnemy(enemy);
         playerScoreManager.AddScore(scorePerEnemy);
     }
 
@@ -113,8 +102,8 @@ public class EnemyController : MonoBehaviour
         for(int i = 0;i < enemies.Count;i++)
         {
             GameObject enemy = enemies[i];
-            enemies.Remove(enemy);
-            Destroy(enemy.gameObject);
+
+            DestroyEnemy(enemy);
             
         }
     }
@@ -153,11 +142,33 @@ public class EnemyController : MonoBehaviour
         enemySpeed = defaultSpeed;
     }
 
-    private void OnTriggerEnter(Collider other)
+    
+
+    /// <summary>
+    /// Destroy the specified enemy from enemy list
+    /// and corresponding gameobject.
+    /// It involves the process to shrink the List<Enemy>
+    /// which removes null object to be removed.
+    /// </summary>
+    /// <param name="enemy"></param>
+    private void DestroyEnemy(GameObject enemyToDestroy)
     {
-        if(other.CompareTag(tagForEnemy))
+        enemies.RemoveAll(enemy=> enemy ==enemyToDestroy);
+        enemies.RemoveAll(enemy => enemy == null);
+
+        Destroy(enemyToDestroy.gameObject);
+
+    }
+
+    private void PrintAllEnemies()
+    {
+        for(int i=0; i<enemies.Count;i++)
         {
-            DestroyEnemyCollidingToPlayer(other.gameObject);
+            if (enemies[i] == null)
+                Debug.Log(i + " null");
+            else
+                Debug.Log(i + " : " + enemies[i]);
+
         }
     }
 }

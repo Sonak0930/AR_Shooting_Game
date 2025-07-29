@@ -37,7 +37,6 @@ public class PlayerRaycastToHittable : MonoBehaviour
 
     private void FixedUpdate()
     {
-  
         if (Input.touchCount > 0)
         {
             foreach (Touch t in Input.touches)
@@ -96,11 +95,9 @@ public class PlayerRaycastToHittable : MonoBehaviour
             items.Add(Instantiate(slowItemPrefab, hit.transform.position, transform.rotation));
 
         }
-        Destroy(hit.collider.gameObject);
-        // for(int k=i;k<count;k++){
-        //     EnemiesSpawned[k]=EnemiesSpawned[k+1];
-        // }
-        playerScoreManager.AddScore(scorePerEnemy);
+
+        enemyController.DestroyEnemyWithPlayerShot(hit.collider.gameObject, scorePerEnemy);
+       
     }
 
     private void ItemShootHandling(RaycastHit hit)
