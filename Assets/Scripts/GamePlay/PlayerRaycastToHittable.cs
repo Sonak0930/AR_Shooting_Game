@@ -43,29 +43,28 @@ public class PlayerRaycastToHittable : MonoBehaviour
             {
                 if (Input.GetTouch(t.fingerId).phase == TouchPhase.Began)
                 {
-                    checkTouch(Input.GetTouch(0).position);
-                }
-            }
-
-            void checkTouch(Vector3 pos)
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, enemyLayerMask))
-                {
-                    if (hit.collider.gameObject.CompareTag("Enemy"))
-                    {
-                        EnemyShootHandling(hit);
-                    }
-                }
-                if (Physics.Raycast(ray, out hit, itemLayerMask))
-                {
-                    
+                    raycastOnTouch(Input.GetTouch(0).position);
                 }
             }
         }
     }
 
+    private void raycastOnTouch(Vector3 pos)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, enemyLayerMask))
+        {
+            if (hit.collider.gameObject.CompareTag("Enemy"))
+            {
+                EnemyShootHandling(hit);
+            }
+        }
+        if (Physics.Raycast(ray, out hit, itemLayerMask))
+        {
+                    
+        }
+    }
     private void EnemyShootHandling(RaycastHit hit)
     {
         int item_rand = Random.Range(1, 101);
