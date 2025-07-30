@@ -43,13 +43,13 @@ public class PlayerRaycastToHittable : MonoBehaviour
             {
                 if (Input.GetTouch(t.fingerId).phase == TouchPhase.Began)
                 {
-                    raycastOnTouch(Input.GetTouch(0).position);
+                    RaycastOnTouch(Input.GetTouch(0).position);
                 }
             }
         }
     }
 
-    private void raycastOnTouch(Vector3 pos)
+    private void RaycastOnTouch(Vector3 pos)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
