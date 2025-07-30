@@ -25,9 +25,7 @@ My role was to develop the EnemySpawn & Attack system and UI update based on Gam
 - 이 팀은 3명의 멤버로 구성되어 있고, 제가 맡은 역할은 몬스터 스폰,움직임 조정, 플레이어 공격, 그리고 UI 업데이트 였습니다.
 
 # EnemyController
-
-
-
+## Enemy Spawn
 https://github.com/user-attachments/assets/532ac959-c6b8-4f69-93ed-0ad6305db593
 
 EnemyController spawns enemies regularly. 
@@ -40,7 +38,46 @@ List<GameObject: Enemy> is dynamically stretched/shrunk when a new enemy is crea
 - 충돌이 일어나면, 해당 몬스터는 플레이어에게 데미지를 주고 사라집니다.
 - 새로운 몬스터 생성/ 기존 몬스터 삭제가 일어날 때마다 Enemy List의 크기가 동적으로 변합니다.
 
-https://github.com/Sonak0930/AR_Shooting_Game/blob/92744abf928dda9e7dcbd758942daf8d45765531/Assets/Scripts/GamePlay/EnemyController.cs#L55C1-L73C6
+<img width="1440" height="899" alt="image" src="https://github.com/user-attachments/assets/d74ca38f-dd2e-4668-a807-b67dc52c950e" />
+Generate the enemy in a random range in a box with a width = maxRangeX, height = Y, and length = Z, which is centered at the player.
+
+- 플레이어를 중심으로 하는 박스 안에서 랜덤한 위치에 enemy를 생성합니다.
+https://github.com/Sonak0930/AR_Shooting_Game/blob/92744abf928dda9e7dcbd758942daf8d45765531/Assets/Scripts/GamePlay/EnemyController.cs#L55-L73
+
+## Enemy Removal
+
+Enemy Removal is done for a list and Destroy().
+
+<img width="521" height="426" alt="image" src="https://github.com/user-attachments/assets/e3761f8f-7981-475e-a90c-060f1d20b0cb" />
+
+1. Collision happens
+
+<img width="574" height="328" alt="image" src="https://github.com/user-attachments/assets/7ffd5465-9a31-4871-97a3-409bb956705b" />
+
+2. Remove the target enemy component from the list
+   -> which makes the element become null
+   
+<img width="393" height="189" alt="image" src="https://github.com/user-attachments/assets/f400af19-111a-4a64-a3b2-17d608774060" />
+
+3. Then remove all null elements in the list.
+   -> This resizes the list, and only valid enemies are in the list.
+   
+<img width="355" height="231" alt="image" src="https://github.com/user-attachments/assets/8b70f63f-fa5d-450f-96a0-2c03d3e70249" />
+
+5. As a last step, destroy the game object of the target.
+
+https://github.com/Sonak0930/AR_Shooting_Game/blob/92744abf928dda9e7dcbd758942daf8d45765531/Assets/Scripts/GamePlay/EnemyController.cs#L154-L161
+
+## Player Shot to Enemy
+
+The player can shoot the enemy by touching the screen.
+- 플레이어는 화면터치로 총알을 발사해 몬스터를 처치할 수 있습니다.
+  
+https://github.com/Sonak0930/AR_Shooting_Game/blob/7c2c11e0dd020af9571e50e74046c611777961d5/Assets/Scripts/GamePlay/PlayerRaycastToHittable.cs#L52-L67
+
+When Enemy is shoot, it drops random item to make the game change
+- 몬스터를 처치하면 랜덤아이템이 드랍되며, 해당 아이템은 게임에 다양한 변화를 줍니다.
+
 
 
 ## Acknowledgments
