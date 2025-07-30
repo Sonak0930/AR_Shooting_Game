@@ -25,6 +25,7 @@ public class PlayerScoreManager : MonoBehaviour
     public void AddScore(int score)
     {
         this.score += score;
+        scoreText.text = score + "";
     }
 
     private void OnEnable()

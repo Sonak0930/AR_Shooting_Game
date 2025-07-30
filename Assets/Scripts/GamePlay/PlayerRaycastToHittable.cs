@@ -41,9 +41,10 @@ public class PlayerRaycastToHittable : MonoBehaviour
         {
             foreach (Touch t in Input.touches)
             {
-                if (Input.GetTouch(t.fingerId).phase == TouchPhase.Began)
+               
+                if (t.phase == TouchPhase.Began)
                 {
-                    RaycastOnTouch(Input.GetTouch(0).position);
+                    RaycastOnTouch(t.position);
                 }
             }
         }
@@ -68,22 +69,29 @@ public class PlayerRaycastToHittable : MonoBehaviour
     private void EnemyShootHandling(RaycastHit hit)
     {
         int item_rand = Random.Range(1, 101);
+        GameObject item=null;
         if (item_rand >= 1 && item_rand <= 10)
         {
+            item= Instantiate(clearItemPrefab, hit.transform.position, transform.rotation);
+
             items.Add(Instantiate(clearItemPrefab, hit.transform.position, transform.rotation));
         }
         else if (item_rand >= 11 && item_rand <= 20)
         {
-            items.Add(Instantiate(plusItemPrefab, hit.transform.position, transform.rotation));
+            item = Instantiate(plusItemPrefab, hit.transform.position, transform.rotation);
         }
         else if (item_rand >= 21 && item_rand <= 30)
         {
-            items.Add(Instantiate(fastItemPrefab, hit.transform.position, transform.rotation));
+            item = Instantiate(fastItemPrefab, hit.transform.position, transform.rotation);
         }
         else if (item_rand >= 31 && item_rand <= 40)
         {
-            items.Add(Instantiate(slowItemPrefab, hit.transform.position, transform.rotation));
+            item = Instantiate(slowItemPrefab, hit.transform.position, transform.rotation);
         }
+
+        items.Add(item);
+        Debug.Log(item.name + " item created");
+
         enemyController.DestroyEnemyWithPlayerShot(hit.collider.gameObject, scorePerEnemy);
        
     }
