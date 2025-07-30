@@ -10,9 +10,9 @@ namespace ProjectTest.MainMenu
 		[SerializeField] private Material soundOnIcon;
 		private Image image;
 
-		[SerializeField] private BgmB bgmButton;
+		//[SerializeField] private BgmB bgmButton;
 
-		[SerializeField] private BgmManager bgmManager;
+		//[SerializeField] private BgmManager bgmManager;
 
 		public void ToggleSound()
 		{
@@ -24,14 +24,14 @@ namespace ProjectTest.MainMenu
 				Array.Instance.Volume = AudioListener.volume;
 				AudioListener.volume = 0.0f;
 
-				if (!Array.Instance.BgmMuted) bgmButton.ToggleMusic();
+				//if (!Array.Instance.BgmMuted) bgmButton.ToggleMusic();
 			}
 			else
 			{
 				image.material = soundOnIcon;
 				AudioListener.volume = Array.Instance.Volume;
 
-				if (!Array.Instance.BgmMuted) bgmManager.Toggle();
+				//if (!Array.Instance.BgmMuted) bgmManager.Toggle();
 			}
 		}
 

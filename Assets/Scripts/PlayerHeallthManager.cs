@@ -6,14 +6,16 @@ using UnityEngine.UI;
 
 public class PlayerHealthManager : MonoBehaviour
 {
-    [SerializeField] private GameObject healthReference;
+    [SerializeField] private GameObject healthUI;
+    [SerializeField] private PlayerScoreManager scoreManager;
+    [SerializeField] private GameState gameState;
     [SerializeField] private int health = 100;
     private Text healthText;
     
     // Start is called before the first frame update
     void Start()
     {
-        healthText = healthReference.GetComponent<Text>();
+        healthText = healthUI.GetComponent<Text>();
         healthText.text = health.ToString();
     }
 
@@ -37,7 +39,8 @@ public class PlayerHealthManager : MonoBehaviour
     {
         if(this.health-damage<=0)
         {
-            GameState.RoundWonHandler round 
+            gameState.Paused = true;
+            scoreManager.DisplayGameOverScore();
         }
         this.health -= damage;
     }

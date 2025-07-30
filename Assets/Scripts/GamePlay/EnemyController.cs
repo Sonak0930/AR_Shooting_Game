@@ -62,7 +62,7 @@ public class EnemyController : MonoBehaviour
 
             float ranX = Random.Range(-RanMaxX, RanMaxX);
             float ranY = Random.Range(-RanMaxY, RanMaxY);
-            float ranZ = Random.Range(RanMinZ, RanMaxZ);
+            float ranZ = Random.Range(-RanMinZ, RanMaxZ);
             GameObject spawnedEnemy = Instantiate(enemyPrefab, new Vector3(ranX, ranY, ranZ), transform.rotation);
             spawnedEnemy.name = enemies.Count + " alpha";
             spawnedEnemy.transform.LookAt(target);
@@ -77,9 +77,7 @@ public class EnemyController : MonoBehaviour
         float speed = enemySpeed * Time.deltaTime;
 
         for (int i = 0; i < enemies.Count; i++)
-        {
-
-          
+        { 
             enemies[i].transform.position = Vector3.MoveTowards(enemies[i].transform.position, target.position, speed);
         }
     }
