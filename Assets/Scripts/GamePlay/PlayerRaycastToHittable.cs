@@ -1,8 +1,10 @@
-using NUnit.Framework;
+
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
 using UnityEngine.SocialPlatforms.Impl;
+
 
 public class PlayerRaycastToHittable : MonoBehaviour
 {
@@ -22,16 +24,22 @@ public class PlayerRaycastToHittable : MonoBehaviour
     [SerializeField] private GameObject plusItemPrefab;
     [SerializeField] private GameObject enemyPrefab;
 
-    [SerializeField]private LayerMask enemyLayerMask;
-    [SerializeField]private LayerMask itemLayerMask;
-
+    [Header("Raycasting arguments")]
+    [SerializeField] private LayerMask enemyLayerMask;
+    [SerializeField] private LayerMask itemLayerMask;
+    [Range(0.1f,20.0f)]
+    [SerializeField] private float maxDistance = 10f;
 
 
     private List<GameObject> items;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        items= new List<GameObject>();
+        Application.targetFrameRate = 60;
+        items = new List<GameObject>();
+
+
+
     }
 
 
@@ -41,7 +49,6 @@ public class PlayerRaycastToHittable : MonoBehaviour
         {
             foreach (Touch t in Input.touches)
             {
-               
                 if (t.phase == TouchPhase.Began)
                 {
                     RaycastOnTouch(t.position);
@@ -52,72 +59,76 @@ public class PlayerRaycastToHittable : MonoBehaviour
 
     private void RaycastOnTouch(Vector3 pos)
     {
+
+  
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, enemyLayerMask))
+        if (Physics.Raycast(ray, out hit, 10f,enemyLayerMask))
         {
-            if (hit.collider.gameObject.CompareTag("Enemy"))
-            {
-                EnemyShootHandling(hit);
-            }
+            EnemyShootHandling(hit);
+  
         }
-        if (Physics.Raycast(ray, out hit, itemLayerMask))
+        else if (Physics.Raycast(ray, out hit, 10f, itemLayerMask ))
         {
-                    
+            ItemShootHandling(hit);
+   
         }
     }
     private void EnemyShootHandling(RaycastHit hit)
     {
-        int item_rand = Random.Range(1, 101);
-        GameObject item=null;
-        if (item_rand >= 1 && item_rand <= 10)
-        {
-            item= Instantiate(clearItemPrefab, hit.transform.position, transform.rotation);
+        int item_rand = UnityEngine.Random.Range(0, 4);
+        GameObject item = null;
 
-            items.Add(Instantiate(clearItemPrefab, hit.transform.position, transform.rotation));
-        }
-        else if (item_rand >= 11 && item_rand <= 20)
+        switch (item_rand)
         {
-            item = Instantiate(plusItemPrefab, hit.transform.position, transform.rotation);
+            case 0:
+                item = Instantiate(clearItemPrefab, hit.transform.position, transform.rotation);
+                break;
+            case 1:
+                item = Instantiate(plusItemPrefab, hit.transform.position, transform.rotation);
+                break;
+            case 2:
+                item = Instantiate(fastItemPrefab, hit.transform.position, transform.rotation);
+                break;
+            case 3:
+                item = Instantiate(slowItemPrefab, hit.transform.position, transform.rotation);
+                break;
         }
-        else if (item_rand >= 21 && item_rand <= 30)
-        {
-            item = Instantiate(fastItemPrefab, hit.transform.position, transform.rotation);
-        }
-        else if (item_rand >= 31 && item_rand <= 40)
-        {
-            item = Instantiate(slowItemPrefab, hit.transform.position, transform.rotation);
-        }
-
         items.Add(item);
-        Debug.Log(item.name + " item created");
 
         enemyController.DestroyEnemyWithPlayerShot(hit.collider.gameObject, scorePerEnemy);
-       
+
     }
 
     private void ItemShootHandling(RaycastHit hit)
     {
+      
         if (hit.collider.gameObject.CompareTag("Clear"))
         {
             enemyController.RemoveAllEnemies();
-                    
+         
+
         }
         else if (hit.collider.gameObject.CompareTag("Plus"))
         {
-            Destroy(hit.collider.gameObject);
+
 
             enemyController.AddMoreEnemies(numOfPlusEnemies);
+           
         }
         else if (hit.collider.gameObject.CompareTag("Fast"))
         {
-            Destroy(hit.collider.gameObject);
+
             enemyController.ApplyFastSpeedItem(duration);
+         
         }
         else if (hit.collider.gameObject.CompareTag("Slow"))
         {
-            Destroy(hit.collider.gameObject);
+
             enemyController.ApplySlowSpeedItem(duration);
+          
         }
+        Destroy(hit.collider.gameObject);
+
     }
 }

@@ -19,11 +19,16 @@ public class InputManager : MonoBehaviour
     }
     private void OnEnable()
     {
+        
         touch.Enable();
         TouchSimulation.Enable();
-
         EnhancedTouchSupport.Enable();
-        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown += FingerDown;
+
+
+        touch.Touches.PressOn.started +=  OnPressOnStarted;
+        touch.Touches.PressOn.canceled +=  OnPressOnCanceled;
+
+        //UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown += FingerDown;
 
     }
 
@@ -32,21 +37,29 @@ public class InputManager : MonoBehaviour
         touch.Disable();
         TouchSimulation.Disable();
 
-
-        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= FingerDown;
-
+        touch.Touches.PressOn.started -= OnPressOnStarted;
+        touch.Touches.PressOn.canceled -= OnPressOnCanceled;
+        //UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= FingerDown;
+   
     }
 
+    private void OnPressOnStarted(InputAction.CallbackContext context)
+    {
+        StartTouch(context);
+    }
+
+    private void OnPressOnCanceled(InputAction.CallbackContext context)
+    {
+        EndTouch(context);
+    }
     private void Start()
     {
-        touch.Touches.PressOn.started += ctx => StartTouch(ctx);
-        touch.Touches.PressOn.canceled += ctx => EndTouch(ctx);
-
+        
     }
 
     private void StartTouch(InputAction.CallbackContext context)
     {
-        
+        Debug.Log("touched");
         if (onStartTouch != null) onStartTouch(touch.Touches.Touchpos.ReadValue<Vector2>(), (float)context.startTime);
     }
 
@@ -56,7 +69,7 @@ public class InputManager : MonoBehaviour
 
         if (onEndTouch != null) onEndTouch(touch.Touches.Touchpos.ReadValue<Vector2>(), (float)context.time);
     }
-
+    
     private void FingerDown(Finger finger)
     {
         if (onStartTouch != null) onStartTouch(finger.screenPosition, Time.time);

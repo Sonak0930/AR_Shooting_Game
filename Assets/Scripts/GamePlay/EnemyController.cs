@@ -10,7 +10,6 @@ public class EnemyController : MonoBehaviour
    
     private RaycastHit2D hit;
     private Vector2[] touches = new Vector2[5];
-    [SerializeField] private Camera camera;
 
     [Header("Enemy reference")]
     public GameObject enemyPrefab;
@@ -136,8 +135,11 @@ public class EnemyController : MonoBehaviour
     IEnumerator ApplyNewSpeedForSeconds(int seconds,float newSpeed,float defaultSpeed)
     {
         enemySpeed = newSpeed;
+        Debug.Log("new speed " + newSpeed);
         yield return new WaitForSeconds(seconds);
         enemySpeed = defaultSpeed;
+
+        Debug.Log("default speed " + defaultSpeed);
     }
 
     
