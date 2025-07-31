@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 public class EnemyController : MonoBehaviour
 {
-   
+
     private RaycastHit2D hit;
     private Vector2[] touches = new Vector2[5];
 
@@ -15,10 +15,10 @@ public class EnemyController : MonoBehaviour
     public GameObject enemyPrefab;
     [SerializeField] private int damagePerEnemy = 10;
     [SerializeField] private float speedOffsetItem = 0.5f;
-    
+
     [Header("UI Reference")]
-    [SerializeField]PlayerHealthManager playerHealthManager;
-    [SerializeField]PlayerScoreManager playerScoreManager;
+    [SerializeField] PlayerHealthManager playerHealthManager;
+    [SerializeField] PlayerScoreManager playerScoreManager;
 
     [Header("Spawned Objects")]
     private List<GameObject> enemies = new();
@@ -31,14 +31,14 @@ public class EnemyController : MonoBehaviour
 
 
     [Header("Enemy Spawn Pivots")]
-    [SerializeField]private Camera playerCam;
+    [SerializeField] private Camera playerCam;
 
-    [Range(0f,90.0f)]
-    [SerializeField]private float ranFovX = 45f;
+    [Range(0f, 90.0f)]
+    [SerializeField] private float ranFovX = 45f;
     [Range(0f, 90.0f)]
     [SerializeField] private float ranFovY = 45f;
-    [SerializeField]private float RanMinZ = 5;
-    [SerializeField]private float RanMaxZ = 20f;
+    [SerializeField] private float RanMinZ = 5;
+    [SerializeField] private float RanMaxZ = 20f;
 
     public const float SpawnInterval = 1.0f;
 
@@ -46,15 +46,15 @@ public class EnemyController : MonoBehaviour
     {
         spawnEnemyLoop();
         moveEnemyToPlayer();
-        
-    
-        
+
+
+
     }
 
     private void spawnEnemyLoop()
     {
         spawnTimer -= Time.deltaTime;
-        
+
         if (spawnTimer <= 0)
         {
             spawnTimer = SpawnInterval;
@@ -84,7 +84,7 @@ public class EnemyController : MonoBehaviour
         float speed = enemySpeed * Time.deltaTime;
 
         for (int i = 0; i < enemies.Count; i++)
-        { 
+        {
             enemies[i].transform.position = Vector3.MoveTowards(enemies[i].transform.position, playerCam.transform.position, speed);
         }
     }
@@ -101,19 +101,18 @@ public class EnemyController : MonoBehaviour
         DestroyEnemy(enemy);
         playerScoreManager.AddScore(scorePerEnemy);
     }
-
     public void RemoveAllEnemies()
     {
-        for(int i = 0;i < enemies.Count;i++)
+        foreach (GameObject enemy in enemies.ToList())
         {
-            GameObject enemy = enemies[i];
-
             DestroyEnemy(enemy);
-            
         }
     }
 
-    public void AddMoreEnemies(int numOfEnemies)
+
+
+
+public void AddMoreEnemies(int numOfEnemies)
     {
         for (int i = 0; i < numOfEnemies; i++)
         {
@@ -169,7 +168,7 @@ public class EnemyController : MonoBehaviour
     /// <param name="enemy"></param>
     private void DestroyEnemy(GameObject enemyToDestroy)
     {
-        enemies.RemoveAll(enemy=> enemy ==enemyToDestroy);
+        enemies.Remove(enemyToDestroy);
         enemies.RemoveAll(enemy => enemy == null);
 
         Destroy(enemyToDestroy.gameObject);
