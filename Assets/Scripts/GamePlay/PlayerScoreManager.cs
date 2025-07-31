@@ -22,9 +22,9 @@ public class PlayerScoreManager : MonoBehaviour
         
     }
 
-    public void AddScore(int score)
+    public void AddScore(int scoreValue)
     {
-        this.score += score;
+        score += scoreValue;
         scoreText.text = score + "";
     }
 

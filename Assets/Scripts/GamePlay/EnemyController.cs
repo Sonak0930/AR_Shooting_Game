@@ -30,15 +30,15 @@ public class EnemyController : MonoBehaviour
     private float enemySpeed = 1.0f;
 
 
+    [Header("Enemy Spawn Pivots")]
+    [SerializeField]private Camera playerCam;
 
-    public Transform target;
-
-    public float RanMinX = 0;
-    public float RanMaxX = 5f;
-
-    public float RanMaxY = 5f;
-    public float RanMinZ = 0;
-    public float RanMaxZ = 5f;
+    [Range(0f,90.0f)]
+    [SerializeField]private float ranFovX = 45f;
+    [Range(0f, 90.0f)]
+    [SerializeField] private float ranFovY = 45f;
+    [SerializeField]private float RanMinZ = 5;
+    [SerializeField]private float RanMaxZ = 20f;
 
     public const float SpawnInterval = 1.0f;
 
@@ -59,12 +59,20 @@ public class EnemyController : MonoBehaviour
         {
             spawnTimer = SpawnInterval;
 
-            float ranX = Random.Range(-RanMaxX, RanMaxX);
-            float ranY = Random.Range(-RanMaxY, RanMaxY);
-            float ranZ = Random.Range(-RanMinZ, RanMaxZ);
+            Vector3 right = playerCam.transform.right;
+            Vector3 up = Vector3.up;
+            Vector3 forward = playerCam.transform.forward;
+
+            float scaleValueFov = 0.5f * (RanMaxZ + RanMinZ);
+            float alphaX = ranFovX / 90.0f;
+            float betaY = ranFovY / 90.0f;
+            float ranX = Random.Range(-right.x * alphaX, right.x * alphaX) * scaleValueFov;
+            float ranZ = Random.Range(RanMinZ, RanMaxZ);
+            float ranY = Random.Range(-up.y * betaY, up.y * betaY) * scaleValueFov;
+
             GameObject spawnedEnemy = Instantiate(enemyPrefab, new Vector3(ranX, ranY, ranZ), transform.rotation);
             spawnedEnemy.name = enemies.Count + " alpha";
-            spawnedEnemy.transform.LookAt(target);
+            spawnedEnemy.transform.LookAt(playerCam.transform);
             //spawnedEnemy.transform.position = Vector3.MoveTowards(spawnedEnemy.transform.position, target.position, speed);
 
             enemies.Add(spawnedEnemy);
@@ -77,7 +85,7 @@ public class EnemyController : MonoBehaviour
 
         for (int i = 0; i < enemies.Count; i++)
         { 
-            enemies[i].transform.position = Vector3.MoveTowards(enemies[i].transform.position, target.position, speed);
+            enemies[i].transform.position = Vector3.MoveTowards(enemies[i].transform.position, playerCam.transform.position, speed);
         }
     }
 
@@ -109,11 +117,19 @@ public class EnemyController : MonoBehaviour
     {
         for (int i = 0; i < numOfEnemies; i++)
         {
-            float ranX = Random.Range(-RanMaxX, RanMaxX);
-            float ranY = Random.Range(-RanMaxY, RanMaxY);
+            Vector3 right = playerCam.transform.right;
+            Vector3 up = Vector3.up;
+            Vector3 forward=playerCam.transform.forward;
+
+            float scaleValueFov = 2.5f * (RanMaxZ + RanMinZ);
+            float alphaX = ranFovX / 90.0f;
+            float betaY = ranFovY / 90.0f;
+            float ranX = Random.Range(-right.x * alphaX, right.x * alphaX)*scaleValueFov;
             float ranZ = Random.Range(RanMinZ, RanMaxZ);
+            float ranY = Random.Range(-up.y * betaY, up.y * betaY)*scaleValueFov;
+
             GameObject spawnedEnemy = Instantiate(enemyPrefab, new Vector3(ranX, ranY, ranZ), transform.rotation);
-            spawnedEnemy.transform.LookAt(target);
+            spawnedEnemy.transform.LookAt(playerCam.transform);
           
             enemies.Add(spawnedEnemy);
         }
