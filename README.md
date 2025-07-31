@@ -68,7 +68,7 @@ Enemy Removal is done for a list and Destroy().
 
 https://github.com/Sonak0930/AR_Shooting_Game/blob/92744abf928dda9e7dcbd758942daf8d45765531/Assets/Scripts/GamePlay/EnemyController.cs#L154-L161
 
-## Player Shot to Enemy
+# Player Shot to Enemy
 
 The player can shoot the enemy by touching the screen.
 - 플레이어는 화면터치로 총알을 발사해 몬스터를 처치할 수 있습니다.
@@ -78,6 +78,25 @@ https://github.com/Sonak0930/AR_Shooting_Game/blob/7c2c11e0dd020af9571e50e74046c
 When Enemy is shoot, it drops random item to make the game change
 - 몬스터를 처치하면 랜덤아이템이 드랍되며, 해당 아이템은 게임에 다양한 변화를 줍니다.
 
+
+# In-Game Items
+## Clear Star
+
+https://github.com/user-attachments/assets/8fd9f473-a235-45b6-9ff6-52ec9a1ff31e
+
+Clear star removes all enemies in the scene.
+- 별 아이템은 스테이지 내 모든 몬스터를 없앱니다.
+
+https://github.com/Sonak0930/AR_Shooting_Game/blob/af2e22cef14624be23aa9d44a70eaddb49da9687/Assets/Scripts/GamePlay/EnemyController.cs#L104-L110
+
+List<GameObject>: enemies are converted to a List because an IEnumerable object is not allowed to be modified at runtime.
+- 동적으로 enemy prefab을 관리하려면, enemies를 List로 변환하는 과정이 필요했습니다.
+
+<img width="1669" height="711" alt="image" src="https://github.com/user-attachments/assets/debf7ce5-8f9a-4940-992d-5755e1fc597f" />
+
+Enemies.ToList() copies the list and iterates it instead of the original one.
+Because IEnumerable Object (List) does not allow the collection to be modified at runtime, a copied list is used to prevent modification.
+- ToList()를 사용하는 이유는, 기존 List는 IEnumerable하기 때문에 Iteration 도중에 수정할 수가 없습니다. 그래서 iteration에 사용할 별개의 list를 copy해서 삭제/생성 프로세스와 iteration이 독립적으로 일어나도록 했습니다.
 
 
 ## Acknowledgments
